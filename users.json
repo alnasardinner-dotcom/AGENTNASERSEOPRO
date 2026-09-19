@@ -1,0 +1,18 @@
+{
+  "admin": {
+    "username": "admin",
+    "full_name": "Abdullah Al Naser (Master Admin)",
+    "email": "admin@agentnaserseopro.com",
+    "password_hash": "0000d7f713a9fc8214d3e37e2b4a0ecc06f5a6ab554afb81094f1e2a9578fc91",
+    "role": "Admin",
+    "plan": "Enterprise Agency"
+  },
+  "demo": {
+    "username": "demo",
+    "full_name": "Public Demo Viewer (Read-Only)",
+    "email": "demo@agentnaserseopro.com",
+    "password_hash": "d3ad9315b7be5dd53b31a273b3b3aba5defe700808305aa16a3062b76658a791",
+    "role": "Demo",
+    "plan": "Public Demo Mode"
+  }
+}

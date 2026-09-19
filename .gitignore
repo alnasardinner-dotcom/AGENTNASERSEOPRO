@@ -1,0 +1,19 @@
+# Environment Variables & Secrets
+.env
+*.env
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Streamlit Local Cache
+.streamlit/
+
+# Generated Reports
+reports/
+*.md.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
