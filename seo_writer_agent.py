@@ -1,11 +1,29 @@
 import os
 from config import Config
-from templates.seo_prompt import SEOPromptTemplate
+try:
+    from templates.seo_prompt import SEOPromptTemplate
+except ModuleNotFoundError:
+    from seo_prompt import SEOPromptTemplate
 
-from templates.shopify_seo import ShopifySEOPromptTemplate
-from templates.amazon_seo import AmazonSEOPromptTemplate
-from templates.blogger_seo import BloggerSEOPromptTemplate
-from templates.local_gmb_seo import LocalGMBSEOPromptTemplate
+try:
+    from templates.shopify_seo import ShopifySEOPromptTemplate
+except ModuleNotFoundError:
+    from shopify_seo import ShopifySEOPromptTemplate
+
+try:
+    from templates.amazon_seo import AmazonSEOPromptTemplate
+except ModuleNotFoundError:
+    from amazon_seo import AmazonSEOPromptTemplate
+
+try:
+    from templates.blogger_seo import BloggerSEOPromptTemplate
+except ModuleNotFoundError:
+    from blogger_seo import BloggerSEOPromptTemplate
+
+try:
+    from templates.local_gmb_seo import LocalGMBSEOPromptTemplate
+except ModuleNotFoundError:
+    from local_gmb_seo import LocalGMBSEOPromptTemplate
 
 class SEOWriterAgent:
     def __init__(self, api_key: str = None):
