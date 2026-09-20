@@ -409,25 +409,25 @@ if not st.session_state.authenticated:
     </style>
     """, unsafe_allow_html=True)
 
-    # Centered Login Layout Columns [1, 1.7, 1] for wider X-axis card
-    _, center_col, _ = st.columns([1, 1.7, 1])
+    # Modern Side-by-Side 2-Column Login Layout: Left Agent Picture & Info, Right Login/Register Form
+    pad_left, left_agent_col, pad_mid, right_form_col, pad_right = st.columns([0.2, 1.1, 0.1, 1.3, 0.2])
 
-    with center_col:
+    with left_agent_col:
+        st.write("")
         avatar_path = os.path.join(os.path.dirname(__file__), "assets", "agent_avatar.jpg")
-        
         if os.path.exists(avatar_path):
-            img_col1, img_col2, img_col3 = st.columns([1.1, 1.8, 1.1])
-            with img_col2:
-                st.image(avatar_path, use_container_width=True)
+            st.image(avatar_path, use_container_width=True)
             
         st.markdown("""
-            <h1 style="color: #1E3A8A; font-size: 24px; font-weight: 800; margin-top: 8px; margin-bottom: 4px; text-align: center; letter-spacing: -0.01em;">AGENT NASER SEO PRO</h1>
-            <div style="text-align: center;"><span class="agent-badge-pill" style="font-size: 11px;">🕵️ AI SEARCH INTELLIGENCE</span></div>
+            <div style="text-align: center; margin-top: 12px;">
+                <h1 style="color: #1E3A8A; font-size: 24px; font-weight: 800; margin-top: 4px; margin-bottom: 6px; letter-spacing: -0.01em;">AGENT NASER SEO PRO</h1>
+                <div style="margin-bottom: 8px;"><span style="font-size: 11.5px; background: #1E3A8A; color: #FFFFFF; padding: 5px 14px; border-radius: 20px; font-weight: 700;">🕵️ AUTONOMOUS AI AGENT</span></div>
+            </div>
         """, unsafe_allow_html=True)
 
+    with right_form_col:
         st.write("")
-
-        # Centered Login & Registration Tabs
+        # Side-by-Side Login & Registration Tabs
         login_tab, register_tab = st.tabs(["🔑 SIGN IN PANEL", "📝 CREATE ACCOUNT"])
 
         with login_tab:
