@@ -15,6 +15,7 @@ from notifier import TelegramNotifier
 from keyword_rank_tracker import KeywordRankTracker
 from seo_healer_agent import SEOHealerAgent
 from site_scraper_clone_agent import SiteScraperCloneAgent
+from ahrefs_semrush_deep_agent import AhrefsSemrushDeepAgent
 from auth import AuthManager
 
 # Helper function to save API Keys permanently into .env file
@@ -390,9 +391,10 @@ def get_agents():
     rank_tracker = KeywordRankTracker()
     healer = SEOHealerAgent()
     scraper = SiteScraperCloneAgent()
-    return master, tracker, writer, indexing, social, bd_trend, spy, telegram, rank_tracker, healer, scraper
+    deep_audit = AhrefsSemrushDeepAgent(gemini_agent=writer)
+    return master, tracker, writer, indexing, social, bd_trend, spy, telegram, rank_tracker, healer, scraper, deep_audit
 
-master_agent, tracker_agent, writer_agent, indexing_agent, social_agent, bd_agent, spy_agent, telegram_notifier, rank_tracker_agent, healer_agent, scraper_agent = get_agents()
+master_agent, tracker_agent, writer_agent, indexing_agent, social_agent, bd_agent, spy_agent, telegram_notifier, rank_tracker_agent, healer_agent, scraper_agent, deep_audit_agent = get_agents()
 
 # 3.5 AUTHENTICATION & LOGIN GATE
 if "authenticated" not in st.session_state:
@@ -510,6 +512,9 @@ with st.sidebar:
         st.session_state.current_segment = "👨‍💼 About Founder (Abdullah Al Naser)"
 
     st.divider()
+
+    if st.button("👑 Ahrefs & Semrush Master Deep Audit", use_container_width=True):
+        st.session_state.current_segment = "👑 Ahrefs & Semrush Master Deep Audit"
 
     if st.button("🔑 Master Keyword Research & Intent Matrix", use_container_width=True):
         st.session_state.current_segment = "🔑 Master Keyword Research & Intent Matrix"
@@ -713,6 +718,39 @@ if st.session_state.current_segment == "👨‍💼 About Founder (Abdullah Al N
         st.info("📞 **Direct Phone Call**: +8801678684141")
     with col_wa:
         st.success("💬 **WhatsApp Direct Chat**: [+8801678684141](https://wa.me/8801678684141)")
+
+# SEGMENT 0.1: AHREFS & SEMRUSH MASTER DEEP AUDIT
+elif st.session_state.current_segment == "👑 Ahrefs & Semrush Master Deep Audit":
+    st.subheader("👑 Ahrefs & Semrush Master Deep Audit Engine")
+    st.markdown("Run an enterprise-grade 360° deep audit ($499/mo paid tool equivalent) for any target website or domain. Analyzes Domain Rating (DR), Organic Traffic Value, Backlink Matrix, Core Web Vitals, Keyword Gaps & 5-Phase Master Execution Roadmap.")
+    
+    col_d1, col_d2 = st.columns([2, 1])
+    with col_d1:
+        deep_domain = st.text_input("Enter Target Website Address or Domain URL", placeholder="e.g. startech.com.bd, techlandbd.com, or yoursite.com", key="in_deep_dom")
+        deep_keyword = st.text_input("Primary Focus Keyword (Optional)", placeholder="e.g. gaming mouse or laptop price in bd", key="in_deep_kw")
+    with col_d2:
+        st.caption("AI Agent will execute a deep Ahrefs & Semrush multi-tier audit covering backlinks, keyword position tiers, technical bugs & 5-phase growth strategy.")
+        
+    if st.button("👑 RUN AHREFS & SEMRUSH MASTER DEEP AUDIT"):
+        if check_execution_permission():
+            if not deep_domain:
+                st.error("Please enter a target domain URL.")
+            else:
+                with st.spinner(f"Executing Enterprise Ahrefs & Semrush Deep Audit for '{deep_domain}'..."):
+                    deep_res = deep_audit_agent.run_master_deep_audit(deep_domain, deep_keyword)
+                    report = deep_res["report_markdown"]
+                    
+                    AgentActivityLogger.log_activity("Ahrefs & Semrush Master Audit", deep_domain, "SUCCESS", f"Generated deep enterprise audit report")
+                    telegram_notifier.send_message(f"👑 *AHREFS & SEMRUSH DEEP AUDIT ALERT*\nExecuted deep audit for: `{deep_domain}` (DR: {deep_res['dr']})")
+                    
+                    st.markdown(f"<span class='status-badge'>🟢 REAL-TIME ENTERPRISE DEEP AUDIT GENERATED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                    st.download_button(
+                        label="📥 DOWNLOAD AHREFS & SEMRUSH MASTER DEEP REPORT",
+                        data=report,
+                        file_name=f"ahrefs_semrush_deep_audit_{deep_domain.replace('.', '_')}.md",
+                        mime="text/markdown"
+                    )
+                    st.markdown(report)
 
 # SEGMENT 0.2: MASTER KEYWORD RESEARCH & INTENT MATRIX
 elif st.session_state.current_segment == "🔑 Master Keyword Research & Intent Matrix":
