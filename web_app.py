@@ -413,10 +413,18 @@ if not st.session_state.authenticated:
     pad_left, left_agent_col, pad_mid, right_form_col, pad_right = st.columns([0.2, 1.1, 0.1, 1.3, 0.2])
 
     with left_agent_col:
-        st.write("")
-        avatar_path = os.path.join(os.path.dirname(__file__), "assets", "agent_avatar.jpg")
-        if os.path.exists(avatar_path):
-            st.image(avatar_path, use_container_width=True)
+        avatar_candidates = [
+            os.path.join(os.path.dirname(__file__), "assets", "agent_avatar.jpg"),
+            os.path.join(os.path.dirname(__file__), "agent_avatar.jpg"),
+            os.path.join(os.path.dirname(__file__), "netlify_deploy", "agent_avatar.jpg")
+        ]
+        found_avatar = None
+        for cand in avatar_candidates:
+            if os.path.exists(cand):
+                found_avatar = cand
+                break
+        if found_avatar:
+            st.image(found_avatar, use_container_width=True)
             
         st.markdown("""
             <div style="text-align: center; margin-top: 12px;">
