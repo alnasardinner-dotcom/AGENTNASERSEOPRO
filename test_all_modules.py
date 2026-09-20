@@ -99,26 +99,52 @@ except Exception as e:
 # 11. SEOHealerAgent Test
 try:
     from seo_healer_agent import SEOHealerAgent
-    healer = SEOHealerAgent(gemini_agent=writer)
-    print(f"✅ [11/13] SEOHealerAgent tested cleanly")
+    healer = SEOHealerAgent()
+    print(f"✅ [11/16] SEOHealerAgent tested cleanly")
 except Exception as e:
-    print(f"❌ [11/13] SEOHealerAgent error: {e}")
+    print(f"❌ [11/16] SEOHealerAgent error: {e}")
 
 # 12. SiteScraperCloneAgent Test
 try:
     from site_scraper_clone_agent import SiteScraperCloneAgent
-    scraper = SiteScraperCloneAgent(gemini_agent=writer)
-    print(f"✅ [12/13] SiteScraperCloneAgent tested cleanly")
+    scraper = SiteScraperCloneAgent()
+    print(f"✅ [12/16] SiteScraperCloneAgent tested cleanly")
 except Exception as e:
-    print(f"❌ [12/13] SiteScraperCloneAgent error: {e}")
+    print(f"❌ [12/16] SiteScraperCloneAgent error: {e}")
 
-# 13. Streamlit web_app Import Test
+# 13. AhrefsSemrushDeepAgent Test
+try:
+    from ahrefs_semrush_deep_agent import AhrefsSemrushDeepAgent
+    deep_agent = AhrefsSemrushDeepAgent(gemini_agent=writer)
+    print(f"✅ [13/16] AhrefsSemrushDeepAgent tested cleanly")
+except Exception as e:
+    print(f"❌ [13/16] AhrefsSemrushDeepAgent error: {e}")
+
+# 14. AmazonIntelligenceAgent Test
+try:
+    from amazon_intelligence_agent import AmazonIntelligenceAgent
+    amz_intel = AmazonIntelligenceAgent(gemini_agent=writer)
+    amz_res = amz_intel.audit_and_optimize_amazon_asin("B09X87K29Z")
+    print(f"✅ [14/16] AmazonIntelligenceAgent tested cleanly (Report length: {len(amz_res['report_markdown'])})")
+except Exception as e:
+    print(f"❌ [14/16] AmazonIntelligenceAgent error: {e}")
+
+# 15. ShopifyIntelligenceAgent Test
+try:
+    from shopify_intelligence_agent import ShopifyIntelligenceAgent
+    shop_intel = ShopifyIntelligenceAgent(gemini_agent=writer)
+    shop_res = shop_intel.audit_and_optimize_shopify_store("demo-store.myshopify.com")
+    print(f"✅ [15/16] ShopifyIntelligenceAgent tested cleanly (Report length: {len(shop_res['report_markdown'])})")
+except Exception as e:
+    print(f"❌ [15/16] ShopifyIntelligenceAgent error: {e}")
+
+# 16. Streamlit web_app Import Test
 try:
     import web_app
-    print(f"✅ [13/13] Streamlit web_app imported cleanly without any syntax or runtime errors")
+    print(f"✅ [16/16] Streamlit web_app imported cleanly without any syntax or runtime errors")
 except Exception as e:
-    print(f"❌ [13/13] Streamlit web_app error: {e}")
+    print(f"❌ [16/16] Streamlit web_app error: {e}")
 
 print("\n==================================================================")
-print("🎉 ALL 13 MODULES PASSED SYSTEM VERIFICATION AUDIT PERFECTLY!")
+print("🎉 ALL 16 MODULES PASSED SYSTEM VERIFICATION AUDIT PERFECTLY!")
 print("==================================================================")

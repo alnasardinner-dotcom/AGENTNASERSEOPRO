@@ -16,6 +16,8 @@ from keyword_rank_tracker import KeywordRankTracker
 from seo_healer_agent import SEOHealerAgent
 from site_scraper_clone_agent import SiteScraperCloneAgent
 from ahrefs_semrush_deep_agent import AhrefsSemrushDeepAgent
+from amazon_intelligence_agent import AmazonIntelligenceAgent
+from shopify_intelligence_agent import ShopifyIntelligenceAgent
 from auth import AuthManager
 
 # Helper function to save API Keys permanently into .env file
@@ -392,9 +394,11 @@ def get_agents():
     healer = SEOHealerAgent()
     scraper = SiteScraperCloneAgent()
     deep_audit = AhrefsSemrushDeepAgent(gemini_agent=writer)
-    return master, tracker, writer, indexing, social, bd_trend, spy, telegram, rank_tracker, healer, scraper, deep_audit
+    amazon_intel = AmazonIntelligenceAgent(gemini_agent=writer)
+    shopify_intel = ShopifyIntelligenceAgent(gemini_agent=writer)
+    return master, tracker, writer, indexing, social, bd_trend, spy, telegram, rank_tracker, healer, scraper, deep_audit, amazon_intel, shopify_intel
 
-master_agent, tracker_agent, writer_agent, indexing_agent, social_agent, bd_agent, spy_agent, telegram_notifier, rank_tracker_agent, healer_agent, scraper_agent, deep_audit_agent = get_agents()
+master_agent, tracker_agent, writer_agent, indexing_agent, social_agent, bd_agent, spy_agent, telegram_notifier, rank_tracker_agent, healer_agent, scraper_agent, deep_audit_agent, amazon_intel_agent, shopify_intel_agent = get_agents()
 
 # 3.5 AUTHENTICATION & LOGIN GATE
 if "authenticated" not in st.session_state:
@@ -992,58 +996,112 @@ elif st.session_state.current_segment == "📍 Local SEO & GMB Setup Suite":
 # SEGMENT 4: AMAZON FBA & AFFILIATE SEO SUITE
 elif st.session_state.current_segment == "📦 Amazon FBA & Affiliate SEO Suite":
     st.subheader("📦 Amazon FBA Seller & Affiliate Marketing SEO Suite")
-    st.markdown("Optimize Amazon ASIN Product Titles, 5 Bullet Point Features, Backend Search Terms, and Affiliate Review Blogs.")
+    st.markdown("Helium 10 & Jungle Scout Grade ASIN BSR Estimator, 5 Bullet Point Features, 249-Byte Search Terms & Schema Markup.")
     
-    amz_product = st.text_input("Amazon Product Name, ASIN, or Keyword", placeholder="e.g. Ergonomic Gaming Mouse")
-    amz_notes = st.text_area("Amazon Listing Directives / Target Audience", placeholder="e.g. Emphasize 50h battery life, 1-year replacement warranty, target PC gamers")
+    amz_tab1, amz_tab2 = st.tabs(["⚡ Enterprise ASIN Intelligence Matrix ($249/mo)", "📝 Listing & Affiliate Content Writer"])
     
-    if st.button("GENERATE AMAZON SEO SUITE"):
-        if check_execution_permission():
-            if not amz_product:
-                st.error("Please enter an Amazon product name or keyword.")
-            else:
-                with st.spinner("Fetching Real-Time Amazon & SERP Market Data..."):
-                    analysis = tracker_agent.analyze_keyword(amz_product)
-                    report = writer_agent.generate_amazon_seo(amz_product, analysis, amz_notes)
-                    AgentActivityLogger.log_activity("Amazon FBA & Affiliate SEO", amz_product, "SUCCESS", "Generated Amazon Listing & Review Schema")
-                    telegram_notifier.send_message(f"📦 *AMAZON SEO REAL-TIME ALERT*\nGenerated Amazon SEO Suite for: `{amz_product}`")
-                    
-                    st.markdown(f"<span class='status-badge'>🟢 REAL-TIME LIVE DATA FETCHED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
-                    st.download_button(
-                        label="📥 DOWNLOAD AMAZON SEO REPORT",
-                        data=report,
-                        file_name=f"amazon_seo_{amz_product.lower().replace(' ', '_')}.md",
-                        mime="text/markdown"
-                    )
-                    st.markdown(report)
+    with amz_tab1:
+        amz_product_intel = st.text_input("Amazon ASIN or Product Keyword", placeholder="e.g. B09X87K29Z or Ergonomic Gaming Mouse", key="amz_intel_input")
+        amz_market = st.selectbox("Target Marketplace", ["USA / Amazon.com", "UK / Amazon.co.uk", "Germany / Amazon.de", "Canada / Amazon.ca"], key="amz_market_key")
+        
+        if st.button("RUN ENTERPRISE ASIN AUDIT", key="amz_intel_btn"):
+            if check_execution_permission():
+                if not amz_product_intel:
+                    st.error("Please enter an Amazon ASIN or product keyword.")
+                else:
+                    with st.spinner("Analyzing Amazon BSR, Buy Box & Listing Metrics..."):
+                        res = amazon_intel_agent.audit_and_optimize_amazon_asin(amz_product_intel, amz_market)
+                        report = res["report_markdown"]
+                        AgentActivityLogger.log_activity("Amazon ASIN Intelligence", amz_product_intel, "SUCCESS", "Generated Helium 10 Grade ASIN Audit")
+                        telegram_notifier.send_message(f"📦 *AMAZON ASIN INTEL ALERT*\nAudited ASIN: `{amz_product_intel}`")
+                        
+                        st.markdown(f"<span class='status-badge'>🟢 REAL-TIME LIVE DATA FETCHED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                        st.download_button(
+                            label="📥 DOWNLOAD ASIN INTELLIGENCE REPORT",
+                            data=report,
+                            file_name=f"amazon_asin_intel_{amz_product_intel.lower().replace(' ', '_')}.md",
+                            mime="text/markdown"
+                        )
+                        st.markdown(report)
+
+    with amz_tab2:
+        amz_product = st.text_input("Amazon Product Name or Keyword", placeholder="e.g. Ergonomic Gaming Mouse", key="amz_writer_input")
+        amz_notes = st.text_area("Amazon Listing Directives / Target Audience", placeholder="e.g. Emphasize 50h battery life, 1-year replacement warranty", key="amz_writer_notes")
+        
+        if st.button("GENERATE AMAZON SEO LISTING COPY", key="amz_writer_btn"):
+            if check_execution_permission():
+                if not amz_product:
+                    st.error("Please enter an Amazon product name or keyword.")
+                else:
+                    with st.spinner("Fetching Real-Time Amazon & SERP Market Data..."):
+                        analysis = tracker_agent.analyze_keyword(amz_product)
+                        report = writer_agent.generate_amazon_seo(amz_product, analysis, amz_notes)
+                        AgentActivityLogger.log_activity("Amazon FBA & Affiliate SEO", amz_product, "SUCCESS", "Generated Amazon Listing & Review Schema")
+                        telegram_notifier.send_message(f"📦 *AMAZON SEO REAL-TIME ALERT*\nGenerated Amazon SEO Suite for: `{amz_product}`")
+                        
+                        st.markdown(f"<span class='status-badge'>🟢 REAL-TIME LIVE DATA FETCHED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                        st.download_button(
+                            label="📥 DOWNLOAD AMAZON SEO REPORT",
+                            data=report,
+                            file_name=f"amazon_seo_{amz_product.lower().replace(' ', '_')}.md",
+                            mime="text/markdown"
+                        )
+                        st.markdown(report)
 
 # SEGMENT 5: SHOPIFY & DROPSHIP SEO SUITE
 elif st.session_state.current_segment == "🛍️ Shopify & Dropship SEO Suite":
     st.subheader("🛍️ Shopify Store & Dropshipping Product Conversion Suite")
-    st.markdown("Generate copy-paste ready Shopify Meta Titles, Meta Descriptions, H1/H2 Product Descriptions, and Product JSON-LD Schemas.")
+    st.markdown("Koala Inspector & Commerce Inspector Grade Shopify Theme Spy, Installed App Stack & SEO Meta/Schema Generator.")
     
-    shop_product = st.text_input("Shopify Product Name or URL Handle", placeholder="e.g. RGB Wireless Gaming Mouse")
-    shop_notes = st.text_area("Shopify Directives (Price BDT/USD, Free Shipping, Target Audience)", placeholder="e.g. Price 1800 BDT, Free Delivery inside Dhaka, 1-year warranty")
+    shop_tab1, shop_tab2 = st.tabs(["⚡ Enterprise Store & Theme Tech Spy ($199/mo)", "📝 Shopify Product SEO & Copywriter"])
     
-    if st.button("GENERATE SHOPIFY DROPSHIP SUITE"):
-        if check_execution_permission():
-            if not shop_product:
-                st.error("Please enter a product name.")
-            else:
-                with st.spinner("Fetching Real-Time E-Commerce SERP Data..."):
-                    analysis = tracker_agent.analyze_keyword(shop_product)
-                    report = writer_agent.generate_shopify_seo(shop_product, analysis, shop_notes)
-                    AgentActivityLogger.log_activity("Shopify Dropship SEO Suite", shop_product, "SUCCESS", "Generated Shopify Product SEO & Schema")
-                    telegram_notifier.send_message(f"🛍️ *SHOPIFY DROPSHIP REAL-TIME ALERT*\nGenerated Shopify Suite for: `{shop_product}`")
-                    
-                    st.markdown(f"<span class='status-badge'>🟢 REAL-TIME LIVE DATA FETCHED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
-                    st.download_button(
-                        label="📥 DOWNLOAD SHOPIFY SEO SUITE",
-                        data=report,
-                        file_name=f"shopify_seo_{shop_product.lower().replace(' ', '_')}.md",
-                        mime="text/markdown"
-                    )
-                    st.markdown(report)
+    with shop_tab1:
+        shop_store_url = st.text_input("Shopify Store Domain or Keyword", placeholder="e.g. gymshark.com or myshopify-store.com", key="shop_spy_input")
+        shop_niche = st.text_input("Target Niche / Category", value="E-Commerce / General", key="shop_niche_key")
+        
+        if st.button("RUN SHOPIFY STORE SPY AUDIT", key="shop_spy_btn"):
+            if check_execution_permission():
+                if not shop_store_url:
+                    st.error("Please enter a Shopify store URL or keyword.")
+                else:
+                    with st.spinner("Inspecting Shopify Theme, App Stack & Revenue Intelligence..."):
+                        res = shopify_intel_agent.audit_and_optimize_shopify_store(shop_store_url, shop_niche)
+                        report = res["report_markdown"]
+                        AgentActivityLogger.log_activity("Shopify Store Tech Spy", shop_store_url, "SUCCESS", "Generated Koala Grade Store Spy Report")
+                        telegram_notifier.send_message(f"🛍️ *SHOPIFY STORE SPY ALERT*\nInspected Shopify Store: `{shop_store_url}`")
+                        
+                        st.markdown(f"<span class='status-badge'>🟢 REAL-TIME LIVE DATA FETCHED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                        st.download_button(
+                            label="📥 DOWNLOAD SHOPIFY STORE SPY REPORT",
+                            data=report,
+                            file_name=f"shopify_store_spy_{shop_store_url.lower().replace(' ', '_').replace('.', '_')}.md",
+                            mime="text/markdown"
+                        )
+                        st.markdown(report)
+
+    with shop_tab2:
+        shop_product = st.text_input("Shopify Product Name or URL Handle", placeholder="e.g. RGB Wireless Gaming Mouse", key="shop_writer_input")
+        shop_notes = st.text_area("Shopify Directives (Price BDT/USD, Free Shipping, Target Audience)", placeholder="e.g. Price 1800 BDT, Free Delivery inside Dhaka, 1-year warranty", key="shop_writer_notes")
+        
+        if st.button("GENERATE SHOPIFY DROPSHIP COPY", key="shop_writer_btn"):
+            if check_execution_permission():
+                if not shop_product:
+                    st.error("Please enter a product name.")
+                else:
+                    with st.spinner("Fetching Real-Time E-Commerce SERP Data..."):
+                        analysis = tracker_agent.analyze_keyword(shop_product)
+                        report = writer_agent.generate_shopify_seo(shop_product, analysis, shop_notes)
+                        AgentActivityLogger.log_activity("Shopify Dropship SEO Suite", shop_product, "SUCCESS", "Generated Shopify Product SEO & Schema")
+                        telegram_notifier.send_message(f"🛍️ *SHOPIFY DROPSHIP REAL-TIME ALERT*\nGenerated Shopify Suite for: `{shop_product}`")
+                        
+                        st.markdown(f"<span class='status-badge'>🟢 REAL-TIME LIVE DATA FETCHED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                        st.download_button(
+                            label="📥 DOWNLOAD SHOPIFY SEO SUITE",
+                            data=report,
+                            file_name=f"shopify_seo_{shop_product.lower().replace(' ', '_')}.md",
+                            mime="text/markdown"
+                        )
+                        st.markdown(report)
 
 # SEGMENT 6: BLOGGER & NICHE CONTENT SEO SUITE
 elif st.session_state.current_segment == "✍️ Blogger & Niche Content SEO Suite":
