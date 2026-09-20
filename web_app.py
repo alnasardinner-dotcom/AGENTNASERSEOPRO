@@ -511,7 +511,11 @@ with st.sidebar:
 
     st.divider()
 
-    st.markdown("<h4 style='color: #1E3A8A;'>OPERATIONAL SEGMENTS</h4>", unsafe_allow_html=True)
+    if st.button("🔑 Master Keyword Research & Intent Matrix", use_container_width=True):
+        st.session_state.current_segment = "🔑 Master Keyword Research & Intent Matrix"
+
+    if st.button("🔗 Keyword Competitor Backlink Spy & Link Finder", use_container_width=True):
+        st.session_state.current_segment = "🔗 Keyword Competitor Backlink Spy & Link Finder"
 
     if st.button("🌐 Master Web Scraper & Site Clone Extractor", use_container_width=True):
         st.session_state.current_segment = "🌐 Master Web Scraper & Site Clone Extractor"
@@ -709,6 +713,70 @@ if st.session_state.current_segment == "👨‍💼 About Founder (Abdullah Al N
         st.info("📞 **Direct Phone Call**: +8801678684141")
     with col_wa:
         st.success("💬 **WhatsApp Direct Chat**: [+8801678684141](https://wa.me/8801678684141)")
+
+# SEGMENT 0.2: MASTER KEYWORD RESEARCH & INTENT MATRIX
+elif st.session_state.current_segment == "🔑 Master Keyword Research & Intent Matrix":
+    st.subheader("🔑 Master Keyword Research & Intent Matrix")
+    st.markdown("Enter your main target keyword to generate **10 Seed Keywords**, **20 LSI Keywords**, **10 High-Intent Hit Keywords**, and **Competition Difficulty (Easy/Medium/Hard)**.")
+    
+    col_kw1, col_kw2 = st.columns([2, 1])
+    with col_kw1:
+        main_research_kw = st.text_input("Enter Your Main Target Keyword", placeholder="e.g. gaming mouse, laptop stand, or web hosting", key="in_res_kw")
+    with col_kw2:
+        st.caption("AI Agent will analyze SERP competition, calculate difficulty (Easy/Medium/Hard) & map 40 seed, LSI & hit keywords.")
+        
+    if st.button("🔑 RUN MASTER KEYWORD RESEARCH & INTENT MATRIX"):
+        if check_execution_permission():
+            if not main_research_kw:
+                st.error("Please enter a main target keyword.")
+            else:
+                with st.spinner(f"Analyzing SERP Competition & Generating 40 Seed, LSI & Hit Keywords for '{main_research_kw}'..."):
+                    kw_res = tracker_agent.generate_keyword_research_matrix(main_research_kw, gemini_agent=writer_agent)
+                    report = kw_res["report_markdown"]
+                    
+                    AgentActivityLogger.log_activity("Keyword Research Matrix", main_research_kw, "SUCCESS", f"Generated 40 keywords & difficulty matrix")
+                    telegram_notifier.send_message(f"🔑 *KEYWORD RESEARCH ALERT*\nGenerated keyword matrix for: `{main_research_kw}` ({kw_res['difficulty_label']})")
+                    
+                    st.markdown(f"<span class='status-badge'>🟢 REAL-TIME KEYWORD MATRIX GENERATED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                    st.download_button(
+                        label="📥 DOWNLOAD MASTER KEYWORD RESEARCH REPORT",
+                        data=report,
+                        file_name=f"keyword_research_{main_research_kw.lower().replace(' ', '_')}.md",
+                        mime="text/markdown"
+                    )
+                    st.markdown(report)
+
+# SEGMENT 0.3: KEYWORD COMPETITOR BACKLINK SPY & LINK FINDER
+elif st.session_state.current_segment == "🔗 Keyword Competitor Backlink Spy & Link Finder":
+    st.subheader("🔗 Keyword Competitor Backlink Spy & Link Finder")
+    st.markdown("Enter your main target keyword to discover the **Top 5 Ranking Google Competitors** and extract their exact live **Backlink Source URLs**, anchor text, domain authority DA, and 1-click backlink replication strategy.")
+    
+    col_bk1, col_bk2 = st.columns([2, 1])
+    with col_bk1:
+        target_bk_keyword = st.text_input("Enter Your Main Target Keyword", placeholder="e.g. gaming mouse price in bd or portable laptop stand", key="in_bk_kw")
+    with col_bk2:
+        st.caption("AI Agent will search Google SERP, extract Top 5 competitors, and map all their live referring backlink source URLs.")
+        
+    if st.button("🔗 FETCH TOP 5 COMPETITORS & BACKLINK SOURCES"):
+        if check_execution_permission():
+            if not target_bk_keyword:
+                st.error("Please enter a target keyword.")
+            else:
+                with st.spinner(f"Scraping Top 5 SERP Competitors & Mapping Live Backlink Source URLs for '{target_bk_keyword}'..."):
+                    bk_res = tracker_agent.fetch_top5_competitors_backlinks(target_bk_keyword, gemini_agent=writer_agent)
+                    report = bk_res["report_markdown"]
+                    
+                    AgentActivityLogger.log_activity("Competitor Backlink Spy", target_bk_keyword, "SUCCESS", f"Mapped backlinks for top 5 competitors")
+                    telegram_notifier.send_message(f"🔗 *BACKLINK SPY ALERT*\nMapped backlinks for keyword: `{target_bk_keyword}`")
+                    
+                    st.markdown(f"<span class='status-badge'>🟢 REAL-TIME BACKLINK DATA EXTRACTED: {datetime.now().strftime('%H:%M:%S')}</span>", unsafe_allow_html=True)
+                    st.download_button(
+                        label="📥 DOWNLOAD COMPETITOR BACKLINK SPY REPORT",
+                        data=report,
+                        file_name=f"competitor_backlinks_{target_bk_keyword.lower().replace(' ', '_')}.md",
+                        mime="text/markdown"
+                    )
+                    st.markdown(report)
 
 # SEGMENT 0.4: MASTER WEB SCRAPER, WHOIS & SITE CLONE EXTRACTOR
 elif st.session_state.current_segment == "🌐 Master Web Scraper & Site Clone Extractor":
