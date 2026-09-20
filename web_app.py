@@ -588,45 +588,27 @@ with st.sidebar:
 
 # 5. MAIN CONTENT AREA
 st.markdown("""
-<div style="background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%); border-radius: 12px; padding: 18px 22px; color: #FFFFFF; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.12);">
+<div style="background-color: #FFFFFF; border: 1px solid #CBD5E1; border-left: 4px solid #1E3A8A; border-radius: 8px; padding: 12px 18px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
         <div>
-            <h1 style="color: #FFFFFF !important; font-size: 22px !important; font-weight: 800 !important; margin: 0 0 4px 0 !important; letter-spacing: -0.01em;">AGENT NASER SEO PRO</h1>
-            <p style="color: #93C5FD; font-size: 13px; margin: 0; font-weight: 600;">🕵️ Autonomous AI Search & Competitor Intelligence Suite</p>
+            <h1 style="color: #1E3A8A !important; font-size: 20px !important; font-weight: 800 !important; margin: 0 0 4px 0 !important; letter-spacing: -0.01em;">AGENT NASER SEO PRO</h1>
+            <p style="color: #475569; font-size: 12.5px; margin: 0; font-weight: 500;">
+                🕵️ Autonomous AI Engine for Competitor SERP Reverse-Engineering, Live Rank Tracking & Sitemap Index Audits.
+            </p>
         </div>
-        <div style="margin-top: 6px;">
-            <span style="background: rgba(255, 255, 255, 0.18); color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);">
-                🟢 SYSTEM ACTIVE | ALL 14 MODULES READY
+        <div style="margin-top: 4px;">
+            <span style="background-color: #EFF6FF; color: #1E3A8A; border: 1px solid #BFDBFE; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px;">
+                🟢 14 AI MODULES ACTIVE
             </span>
         </div>
     </div>
-    
-    <!-- UI/UX Capability Cards Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 14px;">
-        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 12px;">
-            <div style="font-size: 12px; font-weight: 800; color: #60A5FA;">🚀 360° SERP & COMPETITOR SPY</div>
-            <div style="font-size: 11.5px; color: #E2E8F0; margin-top: 2px;">Scans top Google rankings, keyword gaps, and competitor strategies.</div>
-        </div>
-        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 12px;">
-            <div style="font-size: 12px; font-weight: 800; color: #60A5FA;">⚡ 1-CLICK AI SEO RANK HEALER</div>
-            <div style="font-size: 11.5px; color: #E2E8F0; margin-top: 2px;">Detects thin content & technical bugs and generates 1-click fixes.</div>
-        </div>
-        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 12px;">
-            <div style="font-size: 12px; font-weight: 800; color: #60A5FA;">🌐 MASTER SCRAPER & WHOIS</div>
-            <div style="font-size: 11.5px; color: #E2E8F0; margin-top: 2px;">Extracts live prices, WHOIS owner data, tech stack, & HTML clones.</div>
-        </div>
-        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 12px;">
-            <div style="font-size: 12px; font-weight: 800; color: #60A5FA;">🔴 GOOGLE INDEX AUDITOR</div>
-            <div style="font-size: 11.5px; color: #E2E8F0; margin-top: 2px;">Crawls sitemap.xml to find non-indexed pages & diagnostic reasons.</div>
-        </div>
-        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 12px;">
-            <div style="font-size: 12px; font-weight: 800; color: #60A5FA;">🛍️ E-COM & LOCAL SEO SUITE</div>
-            <div style="font-size: 11.5px; color: #E2E8F0; margin-top: 2px;">Amazon ASIN listings, Shopify meta tags, and GMB Local setup.</div>
-        </div>
-        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 12px;">
-            <div style="font-size: 12px; font-weight: 800; color: #60A5FA;">📊 AHREFS DASHBOARD BOARD</div>
-            <div style="font-size: 11.5px; color: #E2E8F0; margin-top: 2px;">Outputs all analytical reports in structured English dashboard tables.</div>
-        </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; padding-top: 8px; border-top: 1px solid #F1F5F9;">
+        <span style="background-color: #F8FAFC; border: 1px solid #E2E8F0; color: #1E3A8A; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px;">🚀 360° SERP Spy</span>
+        <span style="background-color: #F8FAFC; border: 1px solid #E2E8F0; color: #1E3A8A; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px;">⚡ AI Rank Healer</span>
+        <span style="background-color: #F8FAFC; border: 1px solid #E2E8F0; color: #1E3A8A; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px;">🌐 Site Scraper & Clone</span>
+        <span style="background-color: #F8FAFC; border: 1px solid #E2E8F0; color: #1E3A8A; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px;">🔴 Index Auditor</span>
+        <span style="background-color: #F8FAFC; border: 1px solid #E2E8F0; color: #1E3A8A; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px;">🛒 E-Com & Local SEO</span>
+        <span style="background-color: #F8FAFC; border: 1px solid #E2E8F0; color: #1E3A8A; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px;">📊 Ahrefs Board</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
