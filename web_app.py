@@ -409,10 +409,17 @@ if not st.session_state.authenticated:
     </style>
     """, unsafe_allow_html=True)
 
-    # Modern Side-by-Side 2-Column Login Layout: Left Agent Picture & Info, Right Login/Register Form
-    pad_left, left_agent_col, pad_mid, right_form_col, pad_right = st.columns([0.2, 1.1, 0.1, 1.3, 0.2])
+    # Modern Side-by-Side 2-Column Login Layout: Left Agent Picture & Info, Right Login/Register Form (Symmetrically Aligned)
+    pad_left, left_agent_col, pad_mid, right_form_col, pad_right = st.columns([0.25, 1.05, 0.1, 1.25, 0.25], vertical_alignment="center")
 
     with left_agent_col:
+        st.markdown("""
+            <div style="text-align: center; margin-bottom: 10px;">
+                <h1 style="color: #1E3A8A; font-size: 22px; font-weight: 800; margin-top: 0px; margin-bottom: 4px; letter-spacing: -0.01em;">AGENT NASER SEO PRO</h1>
+                <span style="font-size: 11px; background: #1E3A8A; color: #FFFFFF; padding: 4px 12px; border-radius: 20px; font-weight: 700;">🕵️ AUTONOMOUS AI AGENT</span>
+            </div>
+        """, unsafe_allow_html=True)
+        
         avatar_candidates = [
             os.path.join(os.path.dirname(__file__), "assets", "agent_avatar.jpg"),
             os.path.join(os.path.dirname(__file__), "agent_avatar.jpg"),
@@ -425,16 +432,8 @@ if not st.session_state.authenticated:
                 break
         if found_avatar:
             st.image(found_avatar, use_container_width=True)
-            
-        st.markdown("""
-            <div style="text-align: center; margin-top: 12px;">
-                <h1 style="color: #1E3A8A; font-size: 24px; font-weight: 800; margin-top: 4px; margin-bottom: 6px; letter-spacing: -0.01em;">AGENT NASER SEO PRO</h1>
-                <div style="margin-bottom: 8px;"><span style="font-size: 11.5px; background: #1E3A8A; color: #FFFFFF; padding: 5px 14px; border-radius: 20px; font-weight: 700;">🕵️ AUTONOMOUS AI AGENT</span></div>
-            </div>
-        """, unsafe_allow_html=True)
 
     with right_form_col:
-        st.write("")
         # Side-by-Side Login & Registration Tabs
         login_tab, register_tab = st.tabs(["🔑 SIGN IN PANEL", "📝 CREATE ACCOUNT"])
 
